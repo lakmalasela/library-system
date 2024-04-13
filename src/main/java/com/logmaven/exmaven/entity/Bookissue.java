@@ -1,6 +1,7 @@
 package com.logmaven.exmaven.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "bookissue")
 @AllArgsConstructor
 @NoArgsConstructor
