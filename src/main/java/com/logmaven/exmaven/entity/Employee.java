@@ -26,6 +26,14 @@ public class Employee {
     @Basic(optional = false)
     private String empcode;
 
+    @Column(name = "nic")
+    @Basic(optional = false)
+    private String nic;
+
+    @Column(name = "phone")
+    @Basic(optional = false)
+    private String phone;
+
     @ManyToOne
     @JoinColumn(name ="designation_id",referencedColumnName = "id")
     private Designation designation_id;

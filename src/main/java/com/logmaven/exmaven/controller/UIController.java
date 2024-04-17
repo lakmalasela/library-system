@@ -14,6 +14,14 @@ public class UIController {
         dashboardui.setViewName("Dashboard.html");
         return dashboardui;
     }
+
+
+    @GetMapping(value = "/employee")
+    public  ModelAndView emplopyee(){
+        ModelAndView employeeui = new ModelAndView();
+        employeeui.setViewName("Employee.html");
+        return employeeui;
+    }
 //    public ModelAndView loginUI(){
 //        ModelAndView loginui = new ModelAndView();
 //        loginui.setViewName("login.html");
