@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script src="pagination.js"></script>
     <link rel="stylesheet" href="sidebar.css">
     <script src="./js/custom.js"></script>
     <script src="employee.js"></script>
@@ -21,6 +21,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="table.css">
     <script>
         // employee = new Object();
         // employee = {}
@@ -40,6 +41,13 @@
         //     phone:""
         // };
     </script>
+
+    <style>
+        .btnSet{
+            width: 8vw;
+            margin-top: 2vh;
+        }
+    </style>
 </head>
 
 <body>
@@ -133,12 +141,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="txtEmp" class="form-label">Emp_Code</label>
-                        <input type="text" class="form-control" id="txtEmp">
+                        <input type="text" class="form-control" id="txtEmp" onkeyup="inputTextBind(this, '^.*$', employee, 'empcode',oldobj)">
 
                     </div>
                     <div class="col-md-6">
                         <label for="txtempName" class="form-label">Employee Name</label>
-                        <input type="text" id="txtempName" onkeyup="inputTextBind(this, '^[A-Z][a-z]+$', employee, 'empname')" class="form-control" aria-describedby="emailHelp"></div>
+                        <input type="text" id="txtempName" onkeyup="inputTextBind(this, '^[A-Z][a-z]+$', employee, 'empname',oldobj)" class="form-control" aria-describedby="emailHelp"></div>
 
                 </div>
                 <div class="row mt-4">
@@ -148,22 +156,39 @@
                     </div>
                     <div class="col-md-6">
                         <label for="txtNIC" class="form-label">NIC</label>
-                        <input type="text" class="form-control" id="txtNIC"  onkeyup="inputTextBind(this,'^(([0-9]{9}[vVxX])|([0-2]{12}))$', employee, 'nic')" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="txtNIC"  onkeyup="inputTextBind(this,'^(([0-9]{9}[vVxX])|([0-2]{12}))$', employee, 'nic',oldobj)" aria-describedby="emailHelp">
 
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-6">
                         <label for="txtPhone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="txtPhone" onkeyup="inputTextBind(this, '^[0][0-9]{9}$', employee, 'phone')" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="txtPhone" onkeyup="inputTextBind(this, '^[0][0-9]{9}$', employee, 'phone',oldobj)" aria-describedby="emailHelp">
 
                     </div>
 
-                    <div class="col-auto mt-4">
-                        <button type="button" onclick="addEmployee();" class="btn btn-primary mb-3">Add Employee</button>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <button  type="button" onclick="addEmployee();" class="btn btn-success btnSet">Add</button>
+
+                        </div>
+                        <div class="col-md-4">
+                            <button  type="button" onclick="clearEmployee();" class="btn btn-info ml-2 btnSet">Clear</button>
+
+                        </div>
+                        <div class="col-md-4">
+                            <button  type="button" onclick="updateEmployee();" class="btn btn-warning btnSet">Update</button>
+
+                        </div>
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="container-fluid mt-4">
+            <div id="table-container1" style="margin: 50px;">
+                <!-- table -->
+            </div>
+            <div id="paginate"></div>
         </div>
     </div>
 </div>

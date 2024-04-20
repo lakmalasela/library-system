@@ -4,7 +4,8 @@ const initial = () => {
  ajaxRequest('http://localhost:8080/designation/list', 'GET', null,
      function(designation) {
       console.log('Designation:', designation);
-      populateSelectField(designation, '#textDesignation','name','');
+      designationList = designation;
+      populateSelectField(designation, '#textDesignation','Select the Designation','name','');
      },
      function(xhr, status, error) {
       console.error('Error fetching designation:', error);
@@ -14,7 +15,21 @@ const initial = () => {
      }
  );
 
-
+ //table
+    ajaxRequest('http://localhost:8080/employee/list', 'GET', null,
+        function(employee) {
+            console.log('Employee:', employee);
+            var columnsToShow = ['id', 'empname', 'empcode'];
+            CreateTable(columnsToShow,employee);
+            // createTable(employee, columnsToShow);
+        },
+        function(xhr, status, error) {
+            console.error('Error fetching designation:', error);
+        },
+        function() {
+            console.log('Ajax request completed');
+        }
+    );
 
 
 }
@@ -24,12 +39,14 @@ addEmployee = () =>{
 
     var postData = employee;
     console.log("EMP ",employee)
-    //
-    // ajaxRequest('https://example.com/api/resource', 'POST', postData, function(response) {
-    //     console.log('Success:', response);
-    // }, function(xhr, status, error) {
-    //     console.error('Error:', error);
-    // });
+
+    ajaxRequest('http://localhost:8080/employee', 'POST', employee, function(response) {
+        console.log('Success:', response);
+        alert("Success Employee Add")
+    }, function(xhr, status, error) {
+        console.error('Error:', error);
+    });
+
 
 }
 
@@ -39,7 +56,14 @@ mountForm = ()=>{
     // employee = new Object();
     // oldemployee = null;
      employee = {}; // Define an empty object
-    console.log("ASELA 345");
+     oldobj = null;
+
+     txtEmp.value = "";
+     txtempName.value = "";
+     txtNIC.value = "";
+     txtPhone.value = "";
+
+
 
 
     // employee = {
@@ -58,5 +82,32 @@ mountForm = ()=>{
     // };
 
 
+
+}
+
+// Function to fill form fields with row data for updating
+function fillFormFields(obj) {
+
+    rowData = JSON.parse(JSON.stringify(obj));
+    oldobj = JSON.parse(JSON.stringify(obj));
+    console.log("fill old ",oldobj)
+    txtEmp.value = rowData.empcode;
+    txtempName.value = rowData.empname;
+    txtNIC.value = rowData.nic;
+    txtPhone.value = rowData.phone;
+    const designationVal = JSON.stringify(rowData.designation_id.name);
+    console.log(designationVal)
+    console.log(designationList)
+    populateSelectField(designationList, '#textDesignation','Select the Designation','name','Librarian');
+    // Here you can implement logic to fill form fields with rowData
+    // For example, if you have input fields with IDs corresponding to column names,
+    // you can set their values like this:
+    // document.getElementById('fieldName').value = rowData['fieldName'];
+}
+
+clearEmployee = ()=>{
+
+}
+updateEmployee =() =>{
 
 }
