@@ -205,6 +205,7 @@ function CreateTable(colname, valuesofrow) {
             // Implement deletion logic here
             // For example, you can delete the row from the table
             row.remove();
+
         });
         actionCell.appendChild(deleteButton);
 
