@@ -37,7 +37,8 @@ public class Websecurityconfiguration {
 
 
                 .formLogin().loginPage("/login")
-                .failureForwardUrl("/login")
+//                .failureForwardUrl("/login?error=true")
+                .failureUrl("/login?error=true")
 
                 .usernameParameter("username")
                 .passwordParameter("password")

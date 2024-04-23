@@ -22,25 +22,6 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="table.css">
-    <script>
-        // employee = new Object();
-        // employee = {}
-
-        // employee = {
-        //     empname: "",
-        //     empcode:"",
-        //     designation_id:{
-        //         id:null,
-        //         name: ""
-        //     },
-        //     empstatus_id:{
-        //         id: null,
-        //         name: ""
-        //     },
-        //     nic:"",
-        //     phone:""
-        // };
-    </script>
 
     <style>
         .btnSet{
@@ -141,29 +122,29 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="txtEmp" class="form-label">Emp_Code</label>
-                        <input type="text" class="form-control" id="txtEmp" onkeyup="inputTextBind(this, '^.*$', employee, 'empcode',oldobj)">
+                        <input type="text" class="form-control" required id="txtEmp" onkeyup="inputTextBind(this, '^.*$', employee, 'empcode',oldemployee)">
 
                     </div>
                     <div class="col-md-6">
                         <label for="txtempName" class="form-label">Employee Name</label>
-                        <input type="text" id="txtempName" onkeyup="inputTextBind(this, '^[A-Z][a-z]+$', employee, 'empname',oldobj)" class="form-control" aria-describedby="emailHelp"></div>
+                        <input type="text" id="txtempName" required onkeyup="inputTextBind(this,'^[A-Z][a-z]+$', employee, 'empname',oldemployee)" class="form-control" aria-describedby="emailHelp"></div>
 
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-6">
                         <label for="textDesignation" class="form-label">Designation</label>
-                        <select class="form-control" id="textDesignation" onchange="bindSelectField(this, employee, 'designation_id')"></select>
+                        <select class="form-control" id="textDesignation" onchange="bindSelectField(this, employee, 'designation_id',oldemployee)"></select>
                     </div>
                     <div class="col-md-6">
                         <label for="txtNIC" class="form-label">NIC</label>
-                        <input type="text" class="form-control" id="txtNIC"  onkeyup="inputTextBind(this,'^(([0-9]{9}[vVxX])|([0-2]{12}))$', employee, 'nic',oldobj)" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="txtNIC" required  onkeyup="inputTextBind(this,'^(([0-9]{9}[vVxX])|([0-2]{12}))$', employee, 'nic',oldemployee)" aria-describedby="emailHelp">
 
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-6">
                         <label for="txtPhone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="txtPhone" onkeyup="inputTextBind(this, '^[0][0-9]{9}$', employee, 'phone',oldobj)" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="txtPhone" required onkeyup="inputTextBind(this, '^[0][0-9]{9}$', employee, 'phone',oldemployee)" aria-describedby="emailHelp">
 
                     </div>
 

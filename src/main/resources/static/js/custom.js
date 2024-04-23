@@ -1,6 +1,6 @@
 validcolor = "1px solid green";
-invalidcolor = "red";
-initialcolor = "2px solid #d6d6c2";
+invalidcolor = "1px solid red";
+initialcolor = "1px solid #d6d6c2";
 updatedColor = "1px solid orange";
 
 function ajaxRequest(url, method, data, successCallback, errorCallback, finalCallback) {
@@ -35,7 +35,6 @@ function populateSelectField(list, fieldId,selecttype, attr, selectedValue) {
 
     // Clear existing options
     selectField.empty();
-
     // Append initial option
     selectField.append($('<option>', { value: '', text: selecttype }));
 
@@ -55,67 +54,34 @@ inputTextBind = (fieldId, pattern, obj, prop, oldobj) => {
     var regpattern = new RegExp(pattern);
     var val = fieldId.value.trim();
 
-    console.log("old pg ", oldobj);
-    if (val !== "") {
+    console.log("Old ",oldobj)
+
+    if(val !=""){
         if (regpattern.test(val)) {
             obj[prop] = val;
-            console.log("SSSSSSSSSSSSSSSSS ", obj[prop]);
-            if (oldobj != null && oldobj[prop] != null && oldobj[prop] !== obj[prop]) {
+            if (oldobj != null && (oldobj[prop] !== obj[prop])){
                 fieldId.style.border = updatedColor;
-            } else if (oldobj != null && oldobj[prop] != null && oldobj[prop] === obj[prop]) {
-                fieldId.style.border = validcolor;
-            } else {
+            }else{
                 fieldId.style.border = validcolor;
             }
-        } else {
+        }
+        else {
             fieldId.style.border = invalidcolor;
             obj[prop] = null;
         }
-    } else {
-        if (fieldId.required) {
+    }else{
+        if(fieldId.required){
             fieldId.style.border = invalidcolor;
-        } else {
-            fieldId.style.border = initialcolor;
+
+        }else{
+            fieldId.style.border = invalidcolor;
         }
         obj[prop] = null;
     }
 }
 
-// inputTextBind = (fieldId,pattern, obj, prop,oldobj) =>{
-//     var regpattern = new RegExp(pattern);
-//     var val = fieldId.value.trim();
-//
-//     console.log("old pg ",oldobj)
-//     if (val !== "") {
-//         if (regpattern.test(val)) {
-//             obj[prop] = val;
-//             console.log("SSSSSSSSSSSSSSSSS ", obj[prop]);
-//             if(oldobj != null && (oldobj[prop] != obj[prop])){
-//                 fieldId.style.border = updatedColor;
-//             }else if(oldobj[prop] === obj[prop]){
-//                 fieldId.style.border = validcolor;
-//             }
-//             else{
-//
-//                 fieldId.style.border = validcolor;
-//             }
-//         } else {
-//             fieldId.style.border = invalidcolor;
-//             obj[prop] = null;
-//         }
-//     } else {
-//         if (fieldId.required) {
-//             fieldId.style.border = invalidcolor;
-//         } else {
-//             fieldId.style.border = initialcolor;
-//         }
-//         obj[prop] = null;
-//     }
-//
-// }
-
 //select bind field
-bindSelectField = (fieldId, obj, prop)=>{
+bindSelectField = (fieldId, obj, prop,oldobj)=>{
 
     // Set the data-object attribute to store the object reference
     fieldId.setAttribute('data-object', 'employee');
@@ -123,12 +89,14 @@ bindSelectField = (fieldId, obj, prop)=>{
 
     // Parse the value from the fieldId and set it to the prop of the object
     ob[prop] = JSON.parse(fieldId.value);
-    console.log("Selected designation ID:", ob[prop]);
-
     // Check if the value is not null or undefined, then set the border color
-    if (ob[prop] != null && ob[prop] !== '') {
+    if (oldobj != null && (oldobj[prop] == null || oldobj[prop].id != ob[prop].id)) {
+        fieldId.style.border = updatedColor;
+    }
+    else if(ob[prop] != null && ob[prop] !== ''){
         fieldId.style.border = validcolor;
-    } else {
+    }
+    else {
         fieldId.style.border = invalidcolor;
     }
 
@@ -136,7 +104,7 @@ bindSelectField = (fieldId, obj, prop)=>{
 }
 
 
-function CreateTable(colname, valuesofrow) {
+function CreateTable(colname, valuesofrow,delmap) {
 
     const table = document.createElement('table');
 
@@ -204,7 +172,17 @@ function CreateTable(colname, valuesofrow) {
         deleteButton.addEventListener('click', () => {
             // Implement deletion logic here
             // For example, you can delete the row from the table
-            row.remove();
+            ajaxRequest('http://localhost:8080/'+delmap, 'DELETE', obj, function(response) {
+                console.log('Success:', response);
+                alert("Delete Record Successfully");
+                initial();
+                // Reload the current page
+                window.location.reload();
+
+                console.log("SSSDDDFFF")
+            }, function(xhr, status, error) {
+                console.error('Error:', error);
+            });
 
         });
         actionCell.appendChild(deleteButton);

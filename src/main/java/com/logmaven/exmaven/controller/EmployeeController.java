@@ -27,8 +27,6 @@ public class EmployeeController {
     //insert data
     @PostMapping
     public String insert(@RequestBody Employee employee){
-
-
         if(employee!= null ){
             try{
 
@@ -44,43 +42,46 @@ public class EmployeeController {
             return "0";
 
 
-
-
-//
-//        try{
-//            daoemployee.save(employee);
-//        }catch (Exception e){
-//            return "Not Save Your Data"+e.getMessage();
-//        }
-//
-//        return "There has some error";
-
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        //userService kiynne variable ekak
-//        User user = userService.findUserByUserName(auth.getName());
-
-//        HashMap<String,Boolean> priv  = previlageController.getPrivilages(user,"CUSTOMER");
-
-//
-//        if(user!= null && priv != null && priv.get("add") ){
-//            try{
-//
-//                customer.setArrearsamount(BigDecimal.valueOf(0.00));
-//                customer.setVisitcount(Integer.valueOf(0));
-//                dao.save(customer);
-//                return "0";
-//            }catch (Exception ex){
-//                return "Not Save Your Data"+ex.getMessage(); //save wenne neththan mokadda error eka kiyla
-//            }
-//
-//        }else
-//            return "Error Saving : You do not have previleges..!";
+    }
 
 
 
+    //update data
+    @PutMapping
+    public String update(@RequestBody Employee employee){
+        System.out.println("EMP 1"+employee);
+        if(employee != null ){
+            try{
+                employee.setEmpstatus_id(daoemployeestatus.getReferenceById(1));
+                System.out.println("EMP 2"+employee);
+                daoemployee.save(employee);
+                return "0";
+            }catch (Exception ex){
+                return "Not Save Your Data"+ex.getMessage();
+            }
 
 
+        }else
+            return "0";
+
+
+    }
+
+    //delete data
+    @DeleteMapping
+    public String delete(@RequestBody Employee employee){
+        if(employee != null ){
+            try{
+                employee.setEmpstatus_id(daoemployeestatus.getReferenceById(2));
+                daoemployee.save(employee);
+                return "0";
+            }catch (Exception ex){
+                return "Not Save Your Data"+ex.getMessage();
+            }
+
+
+        }else
+            return "0";
 
 
     }

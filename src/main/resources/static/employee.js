@@ -1,5 +1,5 @@
 const initial = () => {
-    mountForm();
+
 
  ajaxRequest('http://localhost:8080/designation/list', 'GET', null,
      function(designation) {
@@ -20,7 +20,7 @@ const initial = () => {
         function(employee) {
             console.log('Employee:', employee);
             var columnsToShow = ['id', 'empname', 'empcode'];
-            CreateTable(columnsToShow,employee);
+            CreateTable(columnsToShow,employee,'employee');
             // createTable(employee, columnsToShow);
         },
         function(xhr, status, error) {
@@ -31,7 +31,7 @@ const initial = () => {
         }
     );
 
-
+    mountForm();
 }
 window.onload = initial;
 
@@ -42,7 +42,12 @@ addEmployee = () =>{
 
     ajaxRequest('http://localhost:8080/employee', 'POST', employee, function(response) {
         console.log('Success:', response);
-        alert("Success Employee Add")
+        alert("Success Employee Add");
+        initial();
+        // Reload the current page
+        window.location.reload();
+
+        console.log("SSSDDDFFF")
     }, function(xhr, status, error) {
         console.error('Error:', error);
     });
@@ -50,37 +55,21 @@ addEmployee = () =>{
 
 }
 
-
 mountForm = ()=>{
-
-    // employee = new Object();
-    // oldemployee = null;
      employee = {}; // Define an empty object
-     oldobj = null;
+     oldemployee = null;
 
      txtEmp.value = "";
      txtempName.value = "";
      txtNIC.value = "";
      txtPhone.value = "";
 
-
-
-
-    // employee = {
-    //     empname: "",
-    //     empcode:"",
-    //     designation_id:{
-    //         id:null,
-    //         name: ""
-    //     },
-    //     empstatus_id:{
-    //         id: null,
-    //         name: ""
-    //     },
-    //     nic:"",
-    //     phone:""
-    // };
-
+     txtEmp.style.border = initialcolor;
+     txtempName.style.border = initialcolor;
+     txtNIC.style.border = initialcolor;
+     txtPhone.style.border = initialcolor;
+     textDesignation.style.border = initialcolor;
+    // populateSelectField(designationList, '#textDesignation','Select the Designation','name','');
 
 
 }
@@ -89,12 +78,20 @@ mountForm = ()=>{
 function fillFormFields(obj) {
 
     rowData = JSON.parse(JSON.stringify(obj));
-    oldobj = JSON.parse(JSON.stringify(obj));
-    console.log("fill old ",oldobj)
+    oldemployee = JSON.parse(JSON.stringify(obj));
+
     txtEmp.value = rowData.empcode;
+    txtEmp.style.border = validcolor;
+
     txtempName.value = rowData.empname;
+    txtempName.style.border = validcolor;
+
     txtNIC.value = rowData.nic;
+    txtNIC.style.border = validcolor;
+
     txtPhone.value = rowData.phone;
+    txtPhone.style.border = validcolor;
+
     const designationVal = JSON.stringify(rowData.designation_id.name);
     console.log(designationVal)
     console.log(designationList)
@@ -107,7 +104,59 @@ function fillFormFields(obj) {
 
 clearEmployee = ()=>{
 
+    if( confirm("Are you sure clear this form ?")){
+       mountForm();
+    }
+
 }
 updateEmployee =() =>{
+
+    var updateData = rowData;
+    console.log("EMP OLD ",oldemployee)
+    console.log("EMP NEW ",employee)
+
+    employee.id = oldemployee.id;
+    employee.empcode = txtEmp.value;
+    if(!(employee.empname)){
+        employee.empname = txtempName.value;
+    }
+    if(!(employee.nic)){
+        employee.nic = txtNIC.value;
+    }
+    if(!(employee.phone)){
+        employee.phone = txtPhone.value;
+    }
+    if(!(employee.designation_id)){
+        employee.designation_id = JSON.parse(textDesignation.value);
+    }
+    console.log("EMP NEW AFTER ",employee)
+   // rowData.empcode =   txtEmp.value
+   //
+   //  txtempName.value = rowData.empname;
+   //  txtempName.style.border = validcolor;
+   //
+   //  txtNIC.value = rowData.nic;
+   //  txtNIC.style.border = validcolor;
+   //
+   //  txtPhone.value = rowData.phone;
+   //  txtPhone.style.border = validcolor;
+   //
+   //  const designationVal = JSON.stringify(rowData.designation_id.name);
+   //  console.log(designationVal)
+   //  console.log(designationList)
+
+    //
+    ajaxRequest('http://localhost:8080/employee', 'PUT', employee, function(response) {
+        console.log('Success:', response);
+        alert("Record Updated Successfully");
+        initial();
+        // Reload the current page
+        window.location.reload();
+
+        console.log("SSSDDDFFF")
+    }, function(xhr, status, error) {
+        console.error('Error:', error);
+    });
+
 
 }

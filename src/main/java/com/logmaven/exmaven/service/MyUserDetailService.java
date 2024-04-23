@@ -28,6 +28,9 @@ public class MyUserDetailService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userDetails = userRepository.findUserByUsername(username);
+        if(userDetails == null){
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
         System.out.println(username);
         System.out.println(userDetails);
 
