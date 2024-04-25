@@ -8,19 +8,18 @@
 
     <title>Collapsible sidebar using Bootstrap 4</title>
 
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
-
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="pagination.js"></script>
     <link rel="stylesheet" href="sidebar.css">
     <script src="./js/custom.js"></script>
-    <script src="employee.js"></script>
+    <script src="book.js"></script>
 
 
     <link rel="stylesheet" href="table.css">
@@ -31,10 +30,6 @@
             margin-top: 2vh;
         }
     </style>
-
-    <script>
-
-    </script>
 </head>
 
 <body>
@@ -43,7 +38,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><i class="fas fa-book-open"></i> Library Management</h3>
+            <h3>Library Management</h3>
             <strong>LM</strong>
         </div>
 
@@ -51,38 +46,38 @@
 
             <li>
                 <a href="#">
-                    <i class="fas fa-book-open"></i>
+                    <i class="fas fa-briefcase"></i>
                     Register Book
                 </a>
 
             </li>
             <li>
                 <a href="#">
-                    <i class="fas fa-book"></i>
+                    <i class="fas fa-image"></i>
                     Book Issue
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class="fas fa-book-open"></i>
+                    <i class="fas fa-question"></i>
                     Book Inventory
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class="fas fa-gavel"></i>
+                    <i class="fas fa-paper-plane"></i>
                     Fine
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class="fas fa-qrcode"></i>
+                    <i class="fas fa-paper-plane"></i>
                     QR Scan
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-paper-plane"></i>
                     Employee
                 </a>
             </li>
@@ -98,6 +93,7 @@
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
                     <i class="fas fa-align-left"></i>
+                    <span><i class="fas fa-compress-arrows-alt"></i></span>
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
@@ -106,12 +102,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Kamal</a>
+                            <a class="nav-link" href="#">Page</a>
                         </li>
                         <li class="nav-item">
-                            <a  id="logout-btn" class="nav-link"><i class="fas fa-power-off"></i></a>
+                            <a class="nav-link" href="#">Page</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -121,44 +122,47 @@
             <form>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="txtEmp" class="form-label">Emp_Code</label>
-                        <input type="text" class="form-control" required id="txtEmp" onkeyup="inputTextBind(this, '^.*$', employee, 'empcode',oldemployee)">
+                        <label for="txtBook" class="form-label">Book_Code</label>
+                        <input type="text" class="form-control" required id="txtBook" onkeyup="inputTextBind(this, '^.*$', book, 'regno',oldbook)">
 
                     </div>
                     <div class="col-md-6">
-                        <label for="txtempName" class="form-label">Employee Name</label>
-                        <input type="text" id="txtempName" required onkeyup="inputTextBind(this,'^[A-Z][a-z]+$', employee, 'empname',oldemployee)" class="form-control" aria-describedby="emailHelp"></div>
+                        <label for="txtbookName" class="form-label">Book Name</label>
+                        <input type="text" id="txtbookName" required onkeyup="inputTextBind(this,'^.*$', book, 'name',oldbook)" class="form-control" aria-describedby="emailHelp"></div>
 
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-6">
-                        <label for="textDesignation" class="form-label">Designation</label>
-                        <select class="form-control" id="textDesignation" onchange="bindSelectField(this, employee, 'designation_id',oldemployee)"></select>
+                        <label for="textAuthor" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="textAuthor" required  onkeyup="inputTextBind(this,'^.*$', book, 'author',oldbook)" aria-describedby="emailHelp">
                     </div>
                     <div class="col-md-6">
-                        <label for="txtNIC" class="form-label">NIC</label>
-                        <input type="text" class="form-control" id="txtNIC" required  onkeyup="inputTextBind(this,'^(([0-9]{9}[vVxX])|([0-2]{12}))$', employee, 'nic',oldemployee)" aria-describedby="emailHelp">
+                        <label for="txtPrice" class="form-label">Price</label>
+                        <input type="text" class="form-control" id="txtPrice" required onkeyup="inputTextBind(this, '^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\\.[0-9]{2})?$', book, 'price',oldbook)" aria-describedby="emailHelp">
+
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <label for="txtPrice" class="form-label">Book Count</label>
+                        <input type="text" class="form-control" id="txtCount" required onkeyup="inputTextBind(this, '^[0-9]{0,10}$', book, 'bookcount',oldbook)" aria-describedby="emailHelp">
 
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-6">
-                        <label for="txtPhone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="txtPhone" required onkeyup="inputTextBind(this, '^[0][0-9]{9}$', employee, 'phone',oldemployee)" aria-describedby="emailHelp">
-
-                    </div>
 
                     <div class="row mt-4">
                         <div class="col-md-4">
-                            <button  type="button" onclick="addEmployee();" class="btn btn-success btnSet">Add</button>
+                            <button  type="button" onclick="addBook();" class="btn btn-success btnSet">Add</button>
 
                         </div>
                         <div class="col-md-4">
-                            <button  type="button" onclick="clearEmployee();" class="btn btn-info ml-2 btnSet">Clear</button>
+                            <button  type="button" onclick="clearBook();" class="btn btn-info ml-2 btnSet">Clear</button>
 
                         </div>
                         <div class="col-md-4">
-                            <button  type="button" onclick="updateEmployee();" class="btn btn-warning btnSet">Update</button>
+                            <button  type="button" onclick="updateBook();" class="btn btn-warning btnSet">Update</button>
 
                         </div>
                     </div>
@@ -166,10 +170,15 @@
             </form>
         </div>
         <div class="container-fluid mt-4">
-            <div id="table-container1" style="margin: 50px;">
-                <!-- table -->
-            </div>
-            <div id="paginate"></div>
+            <div id="demo" class="pagination-container"></div>
+            <div id="table-container1"></div>
+
+
+            <!--            <div id="table-container1" style="margin: 50px;">-->
+<!--                &lt;!&ndash; table &ndash;&gt;-->
+<!--            </div>-->
+<!--            <div id="demo" class="pagination-container"></div>-->
+
         </div>
     </div>
 </div>
@@ -189,21 +198,6 @@
             $('#sidebar').toggleClass('active');
         });
     });
-
-
-    clearUsername = () =>{
-        localStorage.removeItem("username");
-    }
-
-    logout = (event) =>{
-        event.preventDefault();
-        clearUsername();
-        window.location.href = "http://localhost:8080/logout";
-    }
-
-    document.getElementById("logout-btn").addEventListener("click", logout);
-    const username = localStorage.getItem("username");
-    console.log("USER ",username)
 </script>
 </body>
 

@@ -38,6 +38,13 @@ public class Book {
     @Basic(optional = false)
     private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name ="bookstatus_id",referencedColumnName = "id")
+    private Bookstatus bookstatus_id;
+
+    @Column(name = "bookcount")
+    @Basic(optional = false)
+    private Integer bookcount;
 
 
 

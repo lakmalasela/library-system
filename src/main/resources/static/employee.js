@@ -19,8 +19,9 @@ const initial = () => {
     ajaxRequest('http://localhost:8080/employee/list', 'GET', null,
         function(employee) {
             console.log('Employee:', employee);
-            var columnsToShow = ['id', 'empname', 'empcode'];
-            CreateTable(columnsToShow,employee,'employee');
+            var columnsToproperty = ['id', 'empcode', 'empname'];
+            var showColumns = ['ID','EMP Codee','EMP Name']
+            CreateTable(columnsToproperty,showColumns,employee,'employee');
             // createTable(employee, columnsToShow);
         },
         function(xhr, status, error) {

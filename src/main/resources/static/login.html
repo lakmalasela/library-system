@@ -18,7 +18,7 @@
 
     <script>
         // Wait for the DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function() {
             // Get the login button element
             var loginButton = document.querySelector('button[type="submit"]');
 
@@ -34,9 +34,20 @@
             var errorParam = urlParams.get('error');
 
             if (errorParam === 'true') {
-                window.location.href = "/dashboard";
-            }else{
                 alert("User name or Password Invalid");
+                if(localStorage.getItem("username")){
+                    localStorage.removeItem("username");
+                }
+                window.location.href = "http://localhost:8080/login";
+
+
+            }else{
+
+
+                // Store the username in localStorage
+                localStorage.setItem("username", username);
+                window.location.href = "http://localhost:8080/dashboard";
+
 
             }
         }

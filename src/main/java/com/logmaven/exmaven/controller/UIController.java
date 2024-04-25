@@ -22,6 +22,13 @@ public class UIController {
         employeeui.setViewName("Employee.html");
         return employeeui;
     }
+
+    @GetMapping(value = "/book")
+    public  ModelAndView book(){
+        ModelAndView bookui = new ModelAndView();
+        bookui.setViewName("Book.html");
+        return bookui;
+    }
 //    public ModelAndView loginUI(){
 //        ModelAndView loginui = new ModelAndView();
 //        loginui.setViewName("login.html");

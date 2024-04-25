@@ -17,6 +17,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
+
 </head>
 
 <body>
@@ -91,9 +92,9 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">Page</a>
                             </li>
-                            <li class="nav-item">
+                            <li  class="nav-item">
 
-                                <a class="nav-link" href="http://localhost:8080/logout"><i class="fas fa-power-off"></i></a>
+                                <a  id="logout-btn" class="nav-link"><i class="fas fa-power-off"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Page</a>
@@ -163,6 +164,21 @@
                 $('#sidebar').toggleClass('active');
             });
         });
+
+
+    </script>
+    <script>
+        clearUsername = () =>{
+            localStorage.removeItem("username");
+        }
+
+        logout = (event) =>{
+            event.preventDefault();
+            clearUsername();
+            window.location.href = "http://localhost:8080/logout";
+        }
+
+        document.getElementById("logout-btn").addEventListener("click", logout);
     </script>
 </body>
 

@@ -103,114 +103,342 @@ bindSelectField = (fieldId, obj, prop,oldobj)=>{
 
 }
 
-
-function CreateTable(colname, valuesofrow,delmap) {
+function CreateTable(colname, showcol, valuesofrow, delmap) {
+    const tableContainer = document.getElementById('table-container1');
+    tableContainer.innerHTML = ''; // Clear previous content
 
     const table = document.createElement('table');
-
-    // Create a table header
     const tableHeader = document.createElement('thead');
     const headerRow = document.createElement('tr');
 
-    // Create an object to store maximum column widths
-    const maxWidths = {};
-
-    // Populate table header and initialize maximum column widths
-    colname.forEach(col => {
+    showcol.forEach(colshow => {
         const headerCell = document.createElement('th');
         headerCell.style.textAlign = 'center';
-        headerCell.textContent = col;
+        headerCell.textContent = colshow;
         headerRow.appendChild(headerCell);
-
-        // Initialize maximum width for each column
-        maxWidths[col] = col.length * 10; // Set an initial width based on the field name length
     });
 
-    // Add a column for the action buttons
     const actionHeaderCell = document.createElement('th');
     actionHeaderCell.style.textAlign = 'center';
     actionHeaderCell.textContent = 'Action';
     headerRow.appendChild(actionHeaderCell);
 
     tableHeader.appendChild(headerRow);
+    table.appendChild(tableHeader);
 
-    // Create table body
     const tableBody = document.createElement('tbody');
 
-    // Populate table body and update maximum column widths
-    valuesofrow.forEach(obj => {
-        const row = document.createElement('tr');
-        colname.forEach(col => {
-            const cell = document.createElement('td');
-            cell.textContent = obj[col] || ''; // Set cell content from data or empty string if data is undefined
-            row.appendChild(cell);
+    table.appendChild(tableBody);
+    tableContainer.appendChild(table);
 
-            // Update maximum width for each column based on cell content
-            maxWidths[col] = Math.max(maxWidths[col], (obj[col] || '').toString().length * 10);
-        });
+    // Calculate total number of pages
+    const totalPages = Math.ceil(valuesofrow.length / 4);
 
-        // Add action buttons cell
-        const actionCell = document.createElement('td');
-        actionCell.style.width = "5vw";
-        actionCell.style.textAlign = 'center';
+    // Function to update table content based on selected page
+    function updateTable(pageNumber) {
+        tableBody.innerHTML = '';
+        const startIndex = (pageNumber - 1) * 5;
+        const endIndex = startIndex + 5;
+        const data = valuesofrow.slice(startIndex, endIndex);
 
-        // Update button
-        const updateButton = document.createElement('button');
-        updateButton.textContent = 'Fill Form';
-        updateButton.cursor = 'pointer';
-        updateButton.className = 'btn btn-primary';
-        updateButton.addEventListener('click', () => {
-            // Fill form fields with row data for updating
-            fillFormFields(obj);
-        });
-        actionCell.appendChild(updateButton);
-
-        // Delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.className = 'btn btn-danger';
-        deleteButton.addEventListener('click', () => {
-            // Implement deletion logic here
-            // For example, you can delete the row from the table
-            ajaxRequest('http://localhost:8080/'+delmap, 'DELETE', obj, function(response) {
-                console.log('Success:', response);
-                alert("Delete Record Successfully");
-                initial();
-                // Reload the current page
-                window.location.reload();
-
-                console.log("SSSDDDFFF")
-            }, function(xhr, status, error) {
-                console.error('Error:', error);
+        data.forEach(obj => {
+            const row = document.createElement('tr');
+            colname.forEach(col => {
+                const cell = document.createElement('td');
+                cell.textContent = obj[col] || '';
+                row.appendChild(cell);
             });
 
+            const actionCell = document.createElement('td');
+            actionCell.style.width = "5vw";
+            actionCell.style.textAlign = 'center';
+
+            const updateButton = document.createElement('button');
+            updateButton.innerHTML = '<i class="fas fa-file-alt"></i>';
+            updateButton.className = 'btn btn-primary';
+            updateButton.addEventListener('click', () => {
+                fillFormFields(obj);
+            });
+            actionCell.appendChild(updateButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteButton.style.marginTop = '5px';
+            deleteButton.className = 'btn btn-danger';
+            deleteButton.addEventListener('click', () => {
+                ajaxRequest('http://localhost:8080/' + delmap, 'DELETE', obj, function(response) {
+                    console.log('Success:', response);
+                    alert("Delete Record Successfully");
+                    initial();
+                    window.location.reload();
+                }, function(xhr, status, error) {
+                    console.error('Error:', error);
+                });
+            });
+            actionCell.appendChild(deleteButton);
+
+            row.appendChild(actionCell);
+            tableBody.appendChild(row);
         });
-        actionCell.appendChild(deleteButton);
+    }
 
-        row.appendChild(actionCell);
+    // Initialize pagination buttons
+    const paginationContainer = document.createElement('div');
+    paginationContainer.classList.add('pagination');
 
-        tableBody.appendChild(row);
-    });
-
-    // Set column widths based on maximum widths
-    colname.forEach(col => {
-        const headerCell = tableHeader.querySelector(`th:nth-child(${colname.indexOf(col) + 1})`);
-        headerCell.style.width = `${maxWidths[col]}px`;
-
-        const cellsInColumn = tableBody.querySelectorAll(`td:nth-child(${colname.indexOf(col) + 1})`);
-        cellsInColumn.forEach(cell => {
-            cell.style.width = `${maxWidths[col]}px`;
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.addEventListener('click', () => {
+            updateTable(i);
         });
-    });
+        paginationContainer.appendChild(pageButton);
+    }
 
-    // Append the table header and body to the table
-    table.appendChild(tableHeader);
-    table.appendChild(tableBody);
+    tableContainer.appendChild(paginationContainer);
 
-    // Append the table to the container in the DOM
-    const tableContainer = document.getElementById('table-container1');
-    tableContainer.appendChild(table);
+    // Show the first page initially
+    updateTable(1);
 }
+
+
+// function CreateTable(colname, showcol, valuesofrow, delmap) {
+//     const tableContainer = document.getElementById('table-container1');
+//     tableContainer.innerHTML = ''; // Clear previous content
+//
+//     const table = document.createElement('table');
+//     const tableHeader = document.createElement('thead');
+//     const headerRow = document.createElement('tr');
+//
+//     showcol.forEach(colshow => {
+//         const headerCell = document.createElement('th');
+//         headerCell.style.textAlign = 'center';
+//         headerCell.textContent = colshow;
+//         headerRow.appendChild(headerCell);
+//     });
+//
+//     const actionHeaderCell = document.createElement('th');
+//     actionHeaderCell.style.textAlign = 'center';
+//     actionHeaderCell.textContent = 'Action';
+//     headerRow.appendChild(actionHeaderCell);
+//
+//     tableHeader.appendChild(headerRow);
+//     table.appendChild(tableHeader);
+//
+//     const tableBody = document.createElement('tbody');
+//
+//     valuesofrow.forEach(obj => {
+//         const row = document.createElement('tr');
+//         colname.forEach(col => {
+//             const cell = document.createElement('td');
+//             cell.textContent = obj[col] || '';
+//             row.appendChild(cell);
+//         });
+//
+//         const actionCell = document.createElement('td');
+//         actionCell.style.width = "5vw";
+//         actionCell.style.textAlign = 'center';
+//
+//         const updateButton = document.createElement('button');
+//         updateButton.textContent = 'Fill Form';
+//         updateButton.className = 'btn btn-primary';
+//         updateButton.addEventListener('click', () => {
+//             fillFormFields(obj);
+//         });
+//         actionCell.appendChild(updateButton);
+//
+//         const deleteButton = document.createElement('button');
+//         deleteButton.textContent = 'Delete';
+//         deleteButton.className = 'btn btn-danger';
+//         deleteButton.addEventListener('click', () => {
+//             ajaxRequest('http://localhost:8080/' + delmap, 'DELETE', obj, function(response) {
+//                 console.log('Success:', response);
+//                 alert("Delete Record Successfully");
+//                 initial();
+//                 window.location.reload();
+//             }, function(xhr, status, error) {
+//                 console.error('Error:', error);
+//             });
+//         });
+//         actionCell.appendChild(deleteButton);
+//
+//         row.appendChild(actionCell);
+//         tableBody.appendChild(row);
+//     });
+//
+//     table.appendChild(tableBody);
+//     tableContainer.appendChild(table);
+//
+//     // Initialize pagination
+//     $('#demo').pagination({
+//         dataSource: valuesofrow, // Assuming valuesofrow contains all data
+//         pageSize: 5,
+//         pageNumber: 1, // Start with the first page
+//         callback: function(data, pagination) {
+//             // Clear existing table data
+//             tableBody.innerHTML = '';
+//
+//             // Populate table with current page data
+//             data.forEach(obj => {
+//                 const row = document.createElement('tr');
+//                 colname.forEach(col => {
+//                     const cell = document.createElement('td');
+//                     cell.textContent = obj[col] || '';
+//                     row.appendChild(cell);
+//                 });
+//
+//                 const actionCell = document.createElement('td');
+//                 actionCell.style.width = "5vw";
+//                 actionCell.style.textAlign = 'center';
+//
+//                 const updateButton = document.createElement('button');
+//                 updateButton.textContent = 'Fill Form';
+//                 updateButton.className = 'btn btn-primary';
+//                 updateButton.addEventListener('click', () => {
+//                     fillFormFields(obj);
+//                 });
+//                 actionCell.appendChild(updateButton);
+//
+//                 const deleteButton = document.createElement('button');
+//                 deleteButton.textContent = 'Delete';
+//                 deleteButton.className = 'btn btn-danger';
+//                 deleteButton.addEventListener('click', () => {
+//                     ajaxRequest('http://localhost:8080/' + delmap, 'DELETE', obj, function(response) {
+//                         console.log('Success:', response);
+//                         alert("Delete Record Successfully");
+//                         initial();
+//                         window.location.reload();
+//                     }, function(xhr, status, error) {
+//                         console.error('Error:', error);
+//                     });
+//                 });
+//                 actionCell.appendChild(deleteButton);
+//
+//                 row.appendChild(actionCell);
+//                 tableBody.appendChild(row);
+//             });
+//         }
+//     });
+// }
+
+
+
+// function CreateTable(colname, showcol,valuesofrow,delmap) {
+//
+//     const table = document.createElement('table');
+//
+//     // Create a table header
+//     const tableHeader = document.createElement('thead');
+//     const headerRow = document.createElement('tr');
+//
+//     // Create an object to store maximum column widths
+//     const maxWidths = {};
+//     showcol.forEach(colshow => {
+//         const headerCell = document.createElement('th');
+//         headerCell.style.textAlign = 'center';
+//         headerCell.textContent = colshow;
+//         headerRow.appendChild(headerCell);
+//
+//         // Initialize maximum width for each column
+//         // maxWidths[colshow] = colshow.length * 2; // Set an initial width based on the field name length
+//     });
+//
+//     // Populate table header and initialize maximum column widths
+//     // colname.forEach(col => {
+//     //     const headerCell = document.createElement('th');
+//     //     headerCell.style.textAlign = 'center';
+//     //     headerCell.textContent = col;
+//     //     headerRow.appendChild(headerCell);
+//     //
+//     //     // Initialize maximum width for each column
+//     //     maxWidths[col] = col.length * 10; // Set an initial width based on the field name length
+//     // });
+//
+//     // Add a column for the action buttons
+//     const actionHeaderCell = document.createElement('th');
+//     actionHeaderCell.style.textAlign = 'center';
+//     actionHeaderCell.textContent = 'Action';
+//     headerRow.appendChild(actionHeaderCell);
+//
+//     tableHeader.appendChild(headerRow);
+//
+//     // Create table body
+//     const tableBody = document.createElement('tbody');
+//
+//     // Populate table body and update maximum column widths
+//     valuesofrow.forEach(obj => {
+//         const row = document.createElement('tr');
+//         colname.forEach(col => {
+//             const cell = document.createElement('td');
+//             cell.textContent = obj[col] || ''; // Set cell content from data or empty string if data is undefined
+//             row.appendChild(cell);
+//
+//             // Update maximum width for each column based on cell content
+//             maxWidths[col] = Math.max(maxWidths[col], (obj[col] || '').toString().length * 10);
+//         });
+//
+//         // Add action buttons cell
+//         const actionCell = document.createElement('td');
+//         actionCell.style.width = "5vw";
+//         actionCell.style.textAlign = 'center';
+//
+//         // Update button
+//         const updateButton = document.createElement('button');
+//         updateButton.textContent = 'Fill Form';
+//         updateButton.cursor = 'pointer';
+//         updateButton.className = 'btn btn-primary';
+//         updateButton.addEventListener('click', () => {
+//             // Fill form fiel with row data for updating
+//             fillFormFields(obj);
+//         });
+//         actionCell.appendChild(updateButton);
+//
+//         // Delete button
+//         const deleteButton = document.createElement('button');
+//         deleteButton.textContent = 'Delete';
+//         deleteButton.className = 'btn btn-danger';
+//         deleteButton.addEventListener('click', () => {
+//             // Implement deletion logic here
+//             // For example, you can delete the row from the table
+//             ajaxRequest('http://localhost:8080/'+delmap, 'DELETE', obj, function(response) {
+//                 console.log('Success:', response);
+//                 alert("Delete Record Successfully");
+//                 initial();
+//                 // Reload the current page
+//                 window.location.reload();
+//
+//                 console.log("SSSDDDFFF")
+//             }, function(xhr, status, error) {
+//                 console.error('Error:', error);
+//             });
+//
+//         });
+//         actionCell.appendChild(deleteButton);
+//
+//         row.appendChild(actionCell);
+//
+//         tableBody.appendChild(row);
+//     });
+//
+//     // Set column widths based on maximum widths
+//     colname.forEach(col => {
+//         const headerCell = tableHeader.querySelector(`th:nth-child(${colname.indexOf(col) + 1})`);
+//         headerCell.style.width = `${maxWidths[col]}px`;
+//
+//         const cellsInColumn = tableBody.querySelectorAll(`td:nth-child(${colname.indexOf(col) + 1})`);
+//         cellsInColumn.forEach(cell => {
+//             cell.style.width = `${maxWidths[col]}px`;
+//         });
+//     });
+//
+//     // Append the table header and body to the table
+//     table.appendChild(tableHeader);
+//     table.appendChild(tableBody);
+//
+//     // Append the table to the container in the DOM
+//     const tableContainer = document.getElementById('table-container1');
+//     tableContainer.appendChild(table);
+// }
 
 
 
