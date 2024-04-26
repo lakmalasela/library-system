@@ -16,44 +16,44 @@
         }
     </style>
 
-    <script>
-        // Wait for the DOM to be fully loaded
-        window.addEventListener('DOMContentLoaded', function() {
-            // Get the login button element
-            var loginButton = document.querySelector('button[type="submit"]');
+<!--    <script>-->
+<!--        // Wait for the DOM to be fully loaded-->
+<!--        window.addEventListener('DOMContentLoaded', function() {-->
+<!--            // Get the login button element-->
+<!--            var loginButton = document.querySelector('button[type="submit"]');-->
 
-            // Attach an event listener to the login button
-            loginButton.addEventListener('click', function(event) {
-                // Call the credentialCheck function when the login button is clicked
-                credentialCheck();
-            });
-        });
+<!--            // Attach an event listener to the login button-->
+<!--            loginButton.addEventListener('click', function(event) {-->
+<!--                // Call the credentialCheck function when the login button is clicked-->
+<!--                credentialCheck();-->
+<!--            });-->
+<!--        });-->
 
-        function credentialCheck() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var errorParam = urlParams.get('error');
+<!--        function credentialCheck() {-->
+<!--            var urlParams = new URLSearchParams(window.location.search);-->
+<!--            var errorParam = urlParams.get('error');-->
 
-            if (errorParam === 'true') {
-                alert("User name or Password Invalid");
-                if(localStorage.getItem("username")){
-                    localStorage.removeItem("username");
-                }
-                window.location.href = "http://localhost:8080/login";
-
-
-            }else{
+<!--            if (errorParam === 'true') {-->
+<!--                alert("User name or Password Invalid");-->
+<!--                if(sessionStorage.getItem("username")){-->
+<!--                    sessionStorage.removeItem("username");-->
+<!--                }-->
+<!--                window.location.href = "http://localhost:8080/login";-->
 
 
-                // Store the username in localStorage
-                localStorage.setItem("username", username);
-                window.location.href = "http://localhost:8080/dashboard";
+<!--            }else{-->
 
 
-            }
-        }
+<!--                // Store the username in localStorage-->
+<!--                sessionStorage.setItem('username', username);-->
+<!--                window.location.href = "http://localhost:8080/dashboard";-->
 
 
-    </script>
+<!--            }-->
+<!--        }-->
+
+
+<!--    </script>-->
 </head>
 <body>
 
@@ -62,9 +62,10 @@
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <div style="text-align: center">
-            <i class="fas fa-book-reader logo"></i>
+            <img src="img/lib2.jpg">
+<!--            <i class="fas fa-book-reader logo"></i>-->
         </div>
-        <form action="/login" method="POST">
+        <form action="/login" method="POST" onsubmit="return credentialCheck()">
             <div class="mb-3">
                 <label for="txtUsername" class="form-label">User Name</label>
                 <input type="text" name="username" class="form-control" id="txtUsername" aria-describedby="emailHelp">

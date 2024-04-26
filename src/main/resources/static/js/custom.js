@@ -188,6 +188,8 @@ function CreateTable(colname, showcol, valuesofrow, delmap) {
 
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('button');
+        pageButton.className = 'btn btn-info';
+        pageButton.style.marginTop = '5px';
         pageButton.textContent = i;
         pageButton.addEventListener('click', () => {
             updateTable(i);

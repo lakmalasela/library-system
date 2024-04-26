@@ -1,12 +1,10 @@
 package com.logmaven.exmaven.controller;
 
 import com.logmaven.exmaven.entity.Book;
+import com.logmaven.exmaven.entity.Bookinventory;
 import com.logmaven.exmaven.entity.Bookstatus;
 import com.logmaven.exmaven.entity.Employee;
-import com.logmaven.exmaven.repository.BookRepository;
-import com.logmaven.exmaven.repository.BookstatusRepository;
-import com.logmaven.exmaven.repository.EmployeeRepository;
-import com.logmaven.exmaven.repository.EmployeestatusRepository;
+import com.logmaven.exmaven.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +20,12 @@ public class BookController {
     @Autowired
     private BookstatusRepository daobookstatus;
 
+    @Autowired
+    private BookInventoryRepository daobookinventory;
+
+    @Autowired
+    private BookInventorystatusRepository daobookinventorystatus;
+
     @GetMapping(value = "/list")
     public List<Book>employeeList(){
         return daobook.findAll();
@@ -35,7 +39,14 @@ public class BookController {
             try{
                 System.out.println("BBBBBBBBBB "+book);
                 book.setBookstatus_id(daobookstatus.getReferenceById(1));
+                Bookinventory bookinventory = new Bookinventory();
                 daobook.save(book);
+                bookinventory.setBookcount(book.getBookcount());
+                bookinventory.setAvailablebookcount(book.getBookcount());
+                bookinventory.setDamagecount(0);
+                bookinventory.setInventorystatus_id(daobookinventorystatus.getReferenceById(1));
+                bookinventory.setBook_id(book);
+                daobookinventory.save(bookinventory);
                 return "Added Successfull";
             }catch (Exception ex){
                 return "Not Save Your Data"+ex.getMessage();

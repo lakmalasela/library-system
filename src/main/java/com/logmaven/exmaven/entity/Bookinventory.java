@@ -20,22 +20,27 @@ public class Bookinventory {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name ="inventorystatus_id",referencedColumnName = "id")
+    private Bookinventorystatus inventorystatus_id;
+
+    @ManyToOne
     @JoinColumn(name ="book_id",referencedColumnName = "id")
     private Book book_id;
 
-    @Basic(optional = false)
-    @Column(name = "author")
-    private String author;
-
 
     @Basic(optional = false)
-    @Column(name = "regno")
-    private String regno;
+    @Column(name = "bookcount")
+    private Integer bookcount;
 
 
-    @Column(name = "price")
     @Basic(optional = false)
-    private BigDecimal price;
+    @Column(name = "availablebookcount")
+    private Integer availablebookcount;
+
+
+    @Column(name = "damagecount")
+    @Basic(optional = false)
+    private Integer damagecount;
 
 
 
