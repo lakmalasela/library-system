@@ -32,7 +32,7 @@ public class BookController {
     }
 
 
-    //insert data
+    //insert data WITH inventory up
     @PostMapping
     public String insert(@RequestBody Book book){
         if(book!= null ){
@@ -58,7 +58,12 @@ public class BookController {
 
     }
 
-
+    //book in inventory
+    // /book/bookininventory
+    @GetMapping(value = "/bookininventory")
+    public List<Book>bookListinInventory(){
+        return daobook.bookfindinInventory();
+    }
 
     //update data
     @PutMapping

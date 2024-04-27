@@ -1,11 +1,11 @@
 const initial = () => {
 
 
- ajaxRequest('http://localhost:8080/designation/list', 'GET', null,
-     function(designation) {
-      console.log('Designation:', designation);
-      designationList = designation;
-      populateSelectField(designation, '#textDesignation','Select the Designation','name','');
+ ajaxRequest('http://localhost:8080/book/bookininventory', 'GET', null,
+     function(books) {
+      console.log('Designation:', books);
+      booksList = books;
+      populateSelectField(books, '#textDesignation','Select the Books','name','');
      },
      function(xhr, status, error) {
       console.error('Error fetching designation:', error);
@@ -57,8 +57,8 @@ addEmployee = () =>{
 }
 
 mountForm = ()=>{
-     employee = {}; // Define an empty object
-     oldemployee = null;
+     fine = {}; // Define an empty object
+     oldfine= null;
 
      txtEmp.value = "";
      txtempName.value = "";

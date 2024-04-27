@@ -106,7 +106,8 @@ function fillFormFields(obj) {
 clearEmployee = ()=>{
 
     if( confirm("Are you sure clear this form ?")){
-       mountForm();
+        initial();
+       //mountForm();
     }
 
 }

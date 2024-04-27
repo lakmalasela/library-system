@@ -1,27 +1,56 @@
 const initial = () => {
 
- //
- // ajaxRequest('http://localhost:8080/designation/list', 'GET', null,
- //     function(designation) {
- //      console.log('Designation:', designation);
- //      designationList = designation;
- //      populateSelectField(designation, '#textDesignation','Select the Designation','name','');
- //     },
- //     function(xhr, status, error) {
- //      console.error('Error fetching designation:', error);
- //     },
- //     function() {
- //      console.log('Ajax request completed');
- //     }
- // );
+    //member
+    ajaxRequest('http://localhost:8080/member/list', 'GET', null,
+        function(member) {
+            memberList = member;
+            populateSelectField(member, '#textMember','Select the Member','name','');
+        },
+        function(xhr, status, error) {
+            console.error('Error fetching designation:', error);
+        },
+        function() {
+            console.log('Ajax request completed');
+        }
+    );
+
+//books
+ ajaxRequest('http://localhost:8080/book/bookininventory', 'GET', null,
+     function(books) {
+      console.log('Designation:', books);
+         books.designationList = books;
+      populateSelectField(books, '#textBook','Select the Book','name','');
+     },
+     function(xhr, status, error) {
+      console.error('Error fetching designation:', error);
+     },
+     function() {
+      console.log('Ajax request completed');
+     }
+ );
+
+ //employee
+    ajaxRequest('http://localhost:8080/employee/list', 'GET', null,
+        function(employee) {
+            console.log('Designation:', employee);
+
+            populateSelectField(employee, '#textEmp','Select the Employee','empname','');
+        },
+        function(xhr, status, error) {
+            console.error('Error fetching designation:', error);
+        },
+        function() {
+            console.log('Ajax request completed');
+        }
+    );
 
  //table
-    ajaxRequest('http://localhost:8080/book/list', 'GET', null,
-        function(book) {
-            console.log('Employee:', book);
-            var columnsToproperty = ['id', 'name', 'author'];
-            var showColumns = ['ID','Name','Author']
-            CreateTable(columnsToproperty,showColumns,book,'book');
+    ajaxRequest('http://localhost:8080/bookissue/list', 'GET', null,
+        function(bookissue) {
+            console.log('Employee:', bookissue);
+            var columnsToproperty = ['id', 'member_id.name', 'issuestatus_id.name'];
+            var showColumns = ['ID','Member','Status']
+            CreateTable(columnsToproperty,showColumns,bookissue,'bookissue');
             // createTable(employee, columnsToShow);
         },
         function(xhr, status, error) {
@@ -36,14 +65,14 @@ const initial = () => {
 }
 window.onload = initial;
 
-addBook = () =>{
+addBookissue = () =>{
 
-    var postData = book;
-    console.log("EMP ",book)
+    var postData = bookissue;
+    console.log("EMP ",bookissue)
 
-    ajaxRequest('http://localhost:8080/book', 'POST', book, function(response) {
+    ajaxRequest('http://localhost:8080/bookissue', 'POST', bookissue, function(response) {
         console.log('Success:', response);
-        alert("Book Add Successfully");
+        alert("Book Issue Add Successfully");
         initial();
         // Reload the current page
         window.location.reload();
@@ -57,20 +86,23 @@ addBook = () =>{
 }
 
 mountForm = ()=>{
-    book = {}; // Define an empty object
-     oldbook = null;
+    bookissue = {}; // Define an empty object
+     oldbookissue = null;
 
-    txtBook.value = "";
-    txtbookName.value = "";
-    textAuthor.value = "";
-    txtPrice.value = "";
-    txtCount.value = "";
-
-    txtBook.style.border = initialcolor;
-    txtbookName.style.border = initialcolor;
-    textAuthor.style.border = initialcolor;
-    txtPrice.style.border = initialcolor;
-    txtCount.style.border = initialcolor;
+     txtReturndate.value = "";
+     txtIssuedate.value = "";
+    // textAuthor.value = "";
+    // txtPrice.value = "";
+    // txtCount.value = "";
+    //
+    // txtBook.style.border = initialcolor;
+    // txtbookName.style.border = initialcolor;
+    // textAuthor.style.border = initialcolor;
+    // txtPrice.style.border = initialcolor;
+    // txtCount.style.border = initialcolor;
+    textMember.style.border = initialcolor;
+    textBook.style.border = initialcolor;
+    textEmp.style.border = initialcolor;
 
     // populateSelectField(designationList, '#textDesignation','Select the Designation','name','');
 
@@ -98,14 +130,18 @@ function fillFormFields(obj) {
     txtCount.value = rowData.bookcount;
     txtCount.style.border = validcolor;
 
+    const designationVal = JSON.stringify(rowData.designation_id.name);
+    console.log(designationVal)
+    console.log(designationList)
+    populateSelectField(designationList, '#textDesignation','Select the Designation','name','Librarian');
 
 
 }
 
-clearBook = ()=>{
+clearBookissue = ()=>{
 
     if( confirm("Are you sure clear this form ?")){
-       mountForm();
+        initial();
     }
 
 }

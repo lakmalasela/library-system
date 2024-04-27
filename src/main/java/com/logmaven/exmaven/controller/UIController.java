@@ -30,6 +30,13 @@ public class UIController {
         return employeeui;
     }
 
+    @GetMapping(value = "/bookissue")
+    public  ModelAndView bookissue(){
+        ModelAndView bookissueui = new ModelAndView();
+        bookissueui.setViewName("Bookissue.html");
+        return bookissueui;
+    }
+
     @GetMapping(value = "/fine")
     public  ModelAndView fine(){
         ModelAndView employeeui = new ModelAndView();

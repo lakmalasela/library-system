@@ -25,8 +25,8 @@ public class Bookissue {
     private Member member_id;
 
     @ManyToOne
-    @JoinColumn(name ="bookinventory_id",referencedColumnName = "id")
-    private Member bookinventory_id;
+    @JoinColumn(name ="book_id",referencedColumnName = "id")
+    private Book book_id;
 
     @Basic(optional = false)
     @Column(name = "issuedate")
