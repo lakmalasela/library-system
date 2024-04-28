@@ -4,6 +4,7 @@ import com.logmaven.exmaven.entity.Book;
 import com.logmaven.exmaven.entity.Bookinventory;
 import com.logmaven.exmaven.entity.Member;
 import com.logmaven.exmaven.repository.*;
+import com.logmaven.exmaven.service.QRCodegenerateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,19 @@ public class MemberController {
     @Autowired
     private MemberRepository daomember;
 
+    @Autowired
+    QRCodegenerateService qrCodegenerateService;
+
 
 
     @GetMapping(value = "/list")
     public List<Member>memberList(){
         return daomember.findAll();
+    }
+
+    @GetMapping(value = "/finmemberqr" ,params = {"memberid"},produces = "application/json")
+    public List memberfineList(@RequestParam("memberid") int memberid){
+        return daomember.getfinebymemberdetails(memberid);
     }
 
 

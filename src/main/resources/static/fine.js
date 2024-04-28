@@ -1,11 +1,10 @@
 const initial = () => {
 
 
- ajaxRequest('http://localhost:8080/book/bookininventory', 'GET', null,
-     function(books) {
-      console.log('Designation:', books);
-      booksList = books;
-      populateSelectField(books, '#textDesignation','Select the Books','name','');
+ ajaxRequest('http://localhost:8080/member/list', 'GET', null,
+     function(member) {
+      memberList = member;
+      populateSelectField(member, '#textMember','Select the Member','name','');
      },
      function(xhr, status, error) {
       console.error('Error fetching designation:', error);
@@ -16,9 +15,9 @@ const initial = () => {
  );
 
  //table
-    ajaxRequest('http://localhost:8080/employee/list', 'GET', null,
-        function(employee) {
-            console.log('Employee:', employee);
+    ajaxRequest('http://localhost:8080/fine/list', 'GET', null,
+        function(fine) {
+            console.log('Employee:', fine);
             var columnsToproperty = ['id', 'empcode', 'empname'];
             var showColumns = ['ID','EMP Codee','EMP Name']
             CreateTable(columnsToproperty,showColumns,employee,'employee');
@@ -36,14 +35,56 @@ const initial = () => {
 }
 window.onload = initial;
 
-addEmployee = () =>{
+finecharge = () =>{
+    console.log("sdsdsdsdsdsdsdsd ",JSON.parse(textMember.value).id)
 
-    var postData = employee;
-    console.log("EMP ",employee)
+    //bookid bind
+    ajaxRequest('http://localhost:8080/bookissue/finebookissue?memberid='+JSON.parse(textMember.value).id, 'GET', null,
+        function(bookissue) {
 
-    ajaxRequest('http://localhost:8080/employee', 'POST', employee, function(response) {
+            console.log("BOOK ISSSUEEEE  ",bookissue)
+            fine.bookissue_id = bookissue;
+            textMember.style.border = validcolor;
+
+        },
+        function(xhr, status, error) {
+            console.error('Error fetching designation:', error);
+        },
+        function() {
+            console.log('Ajax request completed');
+        }
+    );
+
+
+
+    //fine charge calculate
+    ajaxRequest('http://localhost:8080/bookissue/finemember?memberid='+JSON.parse(textMember.value).id, 'GET', null,
+        function(fineday) {
+            finedayList = fineday;
+            console.log("F FDAY ",fineday)
+            if( fineday > 0){
+                txtCharge.value = parseFloat((fineday * 300)).toFixed(2);
+                fine.charge =  txtCharge.value;
+                txtCharge.style.border = validcolor;
+            }
+        },
+        function(xhr, status, error) {
+            console.error('Error fetching designation:', error);
+        },
+        function() {
+            console.log('Ajax request completed');
+        }
+    );
+
+
+
+}
+
+addFine = () =>{
+
+    ajaxRequest('http://localhost:8080/fine', 'POST', fine, function(response) {
         console.log('Success:', response);
-        alert("Success Employee Add");
+        alert("Success Fine Add");
         initial();
         // Reload the current page
         window.location.reload();
@@ -60,16 +101,16 @@ mountForm = ()=>{
      fine = {}; // Define an empty object
      oldfine= null;
 
-     txtEmp.value = "";
-     txtempName.value = "";
-     txtNIC.value = "";
-     txtPhone.value = "";
-
-     txtEmp.style.border = initialcolor;
-     txtempName.style.border = initialcolor;
-     txtNIC.style.border = initialcolor;
-     txtPhone.style.border = initialcolor;
-     textDesignation.style.border = initialcolor;
+     // txtEmp.value = "";
+     // txtempName.value = "";
+     // txtNIC.value = "";
+     // txtPhone.value = "";
+     //
+     // txtEmp.style.border = initialcolor;
+     // txtempName.style.border = initialcolor;
+     // txtNIC.style.border = initialcolor;
+     // txtPhone.style.border = initialcolor;
+     // textDesignation.style.border = initialcolor;
     // populateSelectField(designationList, '#textDesignation','Select the Designation','name','');
 
 

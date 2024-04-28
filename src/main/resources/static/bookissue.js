@@ -112,30 +112,6 @@ mountForm = ()=>{
 // Function to fill form fields with row data for updating
 function fillFormFields(obj) {
 
-    rowData = JSON.parse(JSON.stringify(obj));
-    oldbook = JSON.parse(JSON.stringify(obj));
-
-    txtBook.value = rowData.regno;
-    txtBook.style.border = validcolor
-
-    txtbookName.value = rowData.name;
-    txtbookName.style.border = validcolor;
-
-    textAuthor.value = rowData.author;
-    textAuthor.style.border = validcolor;
-
-    txtPrice.value = rowData.price;
-    txtPrice.style.border = validcolor;
-
-    txtCount.value = rowData.bookcount;
-    txtCount.style.border = validcolor;
-
-    const designationVal = JSON.stringify(rowData.designation_id.name);
-    console.log(designationVal)
-    console.log(designationList)
-    populateSelectField(designationList, '#textDesignation','Select the Designation','name','Librarian');
-
-
 }
 
 clearBookissue = ()=>{
@@ -146,54 +122,5 @@ clearBookissue = ()=>{
 
 }
 updateBook =() =>{
-
-    var updateData = rowData;
-    console.log("EMP OLD ",book)
-
-
-    book.id = oldbook.id;
-    book.regno = txtBook.value;
-    if(!(book.name)){
-        book.name = txtbookName.value;
-    }
-    if(!(book.author)){
-        book.author = textAuthor.value;
-    }
-    if(!(book.price)){
-        book.price = txtPrice.value;
-    }
-    if(!(book.bookcount)){
-        book.bookcount = txtCount.value;
-    }
-
-
-   // rowData.empcode =   txtEmp.value
-   //
-   //  txtempName.value = rowData.empname;
-   //  txtempName.style.border = validcolor;
-   //
-   //  txtNIC.value = rowData.nic;
-   //  txtNIC.style.border = validcolor;
-   //
-   //  txtPhone.value = rowData.phone;
-   //  txtPhone.style.border = validcolor;
-   //
-   //  const designationVal = JSON.stringify(rowData.designation_id.name);
-   //  console.log(designationVal)
-   //  console.log(designationList)
-
-    //
-    ajaxRequest('http://localhost:8080/book', 'PUT', book, function(response) {
-        console.log('Success:', response);
-        alert("Record Updated Successfully");
-        initial();
-        // Reload the current page
-        window.location.reload();
-
-        console.log("SSSDDDFFF")
-    }, function(xhr, status, error) {
-        console.error('Error:', error);
-    });
-
 
 }

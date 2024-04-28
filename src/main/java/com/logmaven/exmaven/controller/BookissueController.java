@@ -62,6 +62,17 @@ public class BookissueController {
 
 
     }
+    //bookissue/finemember?memberid=7
+    @GetMapping(value = "/finemember",params = {"memberid"},produces = "application/json")
+    public Integer memberfineList(@RequestParam("memberid") int memberid){
+        return daobookissue.getfinebymember(memberid);
+    }
+
+    //bookissue/finebookissue?memberid = 1
+    @GetMapping(value = "/finebookissue",params = {"memberid"},produces = "application/json")
+    public Bookissue membergetbookissue(@RequestParam("memberid") int memberid){
+        return daobookissue.getfinebybookissue(memberid);
+    }
 ////
 //    //book in inventory
 //    // /book/bookininventory
@@ -70,43 +81,26 @@ public class BookissueController {
 //        return daobook.bookfindinInventory();
 //    }
 
-    //update data
-//    @PutMapping
-//    public String update(@RequestBody Book book){
-//        if(book != null ){
-//            try{
-//                book.setBookstatus_id(daobookstatus.getReferenceById(1));
-//                daobook.save(book);
-//                return "0";
-//            }catch (Exception ex){
-//                return "Not Save Your Data"+ex.getMessage();
-//            }
-//
-//
-//        }else
-//            return "0";
-//
-//
-//    }
+
 
     //delete data
-//    @DeleteMapping
-//    public String delete(@RequestBody Book book){
-//        if(book != null ){
-//            try{
-//                book.setBookstatus_id(daobookstatus.getReferenceById(2));
-//                daobook.save(book);
-//                return "0";
-//            }catch (Exception ex){
-//                return "Not Save Your Data"+ex.getMessage();
-//            }
-//
-//
-//        }else
-//            return "0";
-//
-//
-//    }
+    @DeleteMapping
+    public String delete(@RequestBody Bookissue bookissue){
+        if(bookissue != null ){
+            try{
+                bookissue.setIssuestatus_id(daobookissuestatus.getReferenceById(2));
+                daobookissue.save(bookissue);
+                return "0";
+            }catch (Exception ex){
+                return "Not Save Your Data"+ex.getMessage();
+            }
+
+
+        }else
+            return "0";
+
+
+    }
 
 
 

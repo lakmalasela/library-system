@@ -1,64 +1,58 @@
-//package com.logmaven.exmaven.controller;
-//
-//import com.logmaven.exmaven.entity.Book;
-//import com.logmaven.exmaven.entity.Bookinventory;
-//import com.logmaven.exmaven.repository.*;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping(value = "/fine")
-//public class FineController {
-//
-//    @Autowired
-//    private FineRepository daofine;
-//
-//    @Autowired
-//    private BookstatusRepository daobookstatus;
-//
-//    @Autowired
-//    private BookInventoryRepository daobookinventory;
-//
-//    @Autowired
-//    private BookInventorystatusRepository daobookinventorystatus;
-//
-//    @GetMapping(value = "/list")
-//    public List<Book>employeeList(){
-//        return daobook.findAll();
-//    }
-//
-//
-//    //insert data
-//    @PostMapping
-//    public String insert(@RequestBody Book book){
-//        if(book!= null ){
-//            try{
-//                System.out.println("BBBBBBBBBB "+book);
-//                book.setBookstatus_id(daobookstatus.getReferenceById(1));
-//                Bookinventory bookinventory = new Bookinventory();
-//                daobook.save(book);
-//                bookinventory.setBookcount(book.getBookcount());
-//                bookinventory.setAvailablebookcount(book.getBookcount());
-//                bookinventory.setDamagecount(0);
-//                bookinventory.setInventorystatus_id(daobookinventorystatus.getReferenceById(1));
-//                bookinventory.setBook_id(book);
-//                daobookinventory.save(bookinventory);
-//                return "Added Successfull";
-//            }catch (Exception ex){
-//                return "Not Save Your Data"+ex.getMessage();
-//            }
-//
-//        }else
-//            return "0";
-//
-//
-//    }
-//
-//
-//
-//    //update data
+package com.logmaven.exmaven.controller;
+
+import com.logmaven.exmaven.entity.Book;
+import com.logmaven.exmaven.entity.Bookinventory;
+import com.logmaven.exmaven.entity.Fine;
+import com.logmaven.exmaven.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/fine")
+public class FineController {
+
+    @Autowired
+    private FineRepository daofine;
+
+    @Autowired
+    private BookstatusRepository daobookstatus;
+
+   @Autowired
+   private FinestatusRepository daofinstatus;
+
+    @GetMapping(value = "/list")
+    public List<Fine>employeeList(){
+        return daofine.findAll();
+    }
+
+
+    //insert data
+    @PostMapping
+    public String insert(@RequestBody Fine fine){
+        System.out.println("FOOOOOOO "+fine);
+        if(fine!= null ){
+            try{
+                fine.setFinestatus_id(daofinstatus.getReferenceById(1));
+               fine.setAddedate(LocalDate.now());
+                System.out.println("FOOOOOOO "+fine);
+                daofine.save(fine);
+                return "Added Successfull";
+            }catch (Exception ex){
+                return "Not Save Your Data"+ex.getMessage();
+            }
+
+        }else
+            return "0";
+
+
+    }
+
+
+
+    //update data
 //    @PutMapping
 //    public String update(@RequestBody Book book){
 //        if(book != null ){
@@ -76,8 +70,8 @@
 //
 //
 //    }
-//
-//    //delete data
+
+    //delete data
 //    @DeleteMapping
 //    public String delete(@RequestBody Book book){
 //        if(book != null ){
@@ -95,7 +89,7 @@
 //
 //
 //    }
-//
-//
-//
-//}
+
+
+
+}
